@@ -1,0 +1,111 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Cherry Socialize\n"
+"POT-Creation-Date: 2017-04-14 15:49+0300\n"
+"PO-Revision-Date: 2016-02-15 11:18+0200\n"
+"Last-Translator: \n"
+"Language-Team: Cherry Team <cherryframework@gmail.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_n_noop:1,2;_x:1,2c;_nx:1,2,4c;"
+"_nx_noop:1,2,3c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
+"esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+
+
+#: public/includes/class-cherry-instagram-widget.php:52
+msgid "Display a list of photos from Instagram network."
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:54
+msgid "Cherry Socialize: Instagram"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:58
+#: public/includes/class-cherry-instagram-widget.php:145
+#: public/includes/class-cherry-instagram-widget.php:152
+msgid "Follow Us"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:59
+msgid "Title"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:66
+msgid "Tagged photos"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:70
+msgid "My Photos"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:74
+msgid "Content type"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:79
+msgid "Hashtag (enter without `#` symbol)"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:85
+msgid "User Name"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:94
+msgid "Number of photos"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:100
+msgid "Photo size"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:106
+msgid "Enable / Disable linking photos"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:115
+msgid "Caption"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:126
+msgid "Caption length (in characters)"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:135
+msgid "Date"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:153
+msgid "Follow Us label"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:178
+msgid "Please, enter #hashtag."
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:182
+msgid "Please, enter User Name."
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:474
+msgid "Thumbnail (150x150)"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:475
+msgid "Low (320x320)"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:476
+msgid "Standard (640x640)"
+msgstr ""
+
+#: public/includes/class-cherry-instagram-widget.php:477
+msgid "High (original)"
+msgstr ""
