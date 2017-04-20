@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: Cherry Socialize
- * Plugin URI:  https://wordpress.org/plugins/cherry-socialize
+ * Plugin URI:  https://wordpress.org/plugins/cherry-socialize/
  * Description: A social plugin for WordPress.
- * Version:     1.0.0-beta
- * Author:      Template Monster
+ * Version:     1.0.0-beta2
+ * Author:      Cherry Team
  * Author URI:  http://www.cherryframework.com/plugins/
  * Text Domain: cherry-socialize
  * License:     GPL-3.0+
@@ -72,7 +72,7 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 		 * @access public
 		 * @var    string
 		 */
-		public $version = '1.0.0-beta';
+		public $version = '1.0.0-beta2';
 
 		/**
 		 * Sets up needed actions/filters for the plugin to initialize.
@@ -105,9 +105,10 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 			// Register a public javascripts and stylesheets.
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_public_assets' ), 1 );
 
-			// Register activation and deactivation hook.
+			// Register activation, deactivation and uninstall hooks.
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
 			register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
+			register_uninstall_hook( __FILE__, array( 'Cherry_Socialize', 'uninstall' )  );
 		}
 
 		/**
@@ -304,6 +305,20 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 		 * @since 1.0.0
 		 */
 		public function deactivation() {
+			/**
+			 * Fire when plugin are deactivate.
+			 *
+			 * @since 1.0.0
+			 */
+			do_action( 'cherry_socialize_deactivate' );
+		}
+
+		/**
+		 * On plugin uninstall.
+		 *
+		 * @since 1.0.0
+		 */
+		public static function uninstall() {
 			$cache_keys = get_option( 'cherry_instagram_widget_cache_keys', array() );
 
 			if ( ! empty( $cache_keys ) ) {
@@ -315,11 +330,11 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 			delete_option( 'cherry_instagram_widget_cache_keys' );
 
 			/**
-			 * Fire when plugin are deactivate.
+			 * Fire when plugin are uninstall.
 			 *
 			 * @since 1.0.0
 			 */
-			do_action( 'cherry_socialize_deactivate' );
+			do_action( 'cherry_socialize_uninstall' );
 		}
 
 		/**

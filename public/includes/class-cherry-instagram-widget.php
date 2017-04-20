@@ -276,7 +276,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 
 				$follow_url      = $this->get_grab_url( $this->config );
 				$follow_symbol   = 'hashtag' === $this->config['endpoint'] ? ' #' : ' @';
-				$follow_text     = $follow_us_label . $follow_symbol . $this->config['endpoint'];
+				$follow_text     = $follow_us_label . $follow_symbol . $this->config['target'];
 				$template_follow = cherry_socialize()->locate_template( 'instagram/follow-us.php' );
 
 				include $template_follow;
