@@ -20,3 +20,22 @@ Cherry Socialize plugin is a perfect instrument for managing social networks rig
 
 == Changelog ==
 = 1.0.0 =
+
+== Documentation ==
+
+= Widget =
+
+Cherry Socialize plugin comes with the Cherry Socialize Instagram widget, which is used to setup and display Instagram feed on the website.
+
+You can customize the widget by changing latter settings:
+
+1. __Title__ - This property specifies the widget title
+2. __Tagged photos__ - Choose the content type here
+3. __My photos__ - Choose the content type here
+4. __Hashtag (enter without `#` symbol)__ - Here you can set a hashtag to display the images, selected by this property
+5. __Number of photos__ - This property defines the number of images to show
+6. __Photo size__ - This property defines the size of the shown images from thumbnail to high
+7. __Enable liking photos__ - Enable / disable liking photos right from the webpage
+8. __Caption__ - Enable this option if you want to show captions
+9. __Date__ - Hide/Show date below the images
+10. __Follow us__ - Hide/Show Follow Us button
