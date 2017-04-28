@@ -10,7 +10,9 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 Manage your social networks in a fast and easy way!
 
 == Description ==
-Cherry Socialize plugin is a perfect instrument for managing social networks right on yout website. By now it can add an improved Instagram widget on any page of your website.
+Want to power up your website with the use of social networks? Prepare for an easy and intuitive introducing your Instagram profile right to the widget area by the means of Cherry Socialize plugin, which allows to manage your Instagram social network right from your website!
+
+You can choose the content type to be shown, show tagged photos, enter different hashtags, define number of photos, and all these resources are available now with the Cherry Socialize plugin! Try it out, and discover for yourself how easy your Instagram profile customization can become!
 
 [Github Repository]( https://github.com/CherryFramework/cherry-socialize )
 
