@@ -250,6 +250,11 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 			$tlc->expires_in( $cache_timeout )
 				->extend_on_fail( $cache_timeout );
 
+			/**
+			 * Filters cache update.
+			 *
+			 * @since 1.0.1
+			 */
 			if ( false !== apply_filters( 'cherry_socialize_instagram_widget_cached_background_only', true ) ) {
 				$tlc->background_only();
 			}
