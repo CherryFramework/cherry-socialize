@@ -245,12 +245,17 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 			);
 
 			// Grab that photos.
-			$data = tlc_transient( $transient_key )
-				->expires_in( $cache_timeout )
-				->extend_on_fail( $cache_timeout )
-				->background_only()
-				->updates_with( array( $this, 'get_photos' ), array( $this->config ) )
-				->get();
+			$tlc = tlc_transient( $transient_key );
+
+			$tlc->expires_in( $cache_timeout )
+				->extend_on_fail( $cache_timeout );
+
+			if ( false !== apply_filters( 'cherry_socialize_instagram_widget_cached_background_only', true ) ) {
+				$tlc->background_only();
+			}
+
+			$tlc->updates_with( array( $this, 'get_photos' ), array( $this->config ) );
+			$data = $tlc->get();
 
 			if ( empty( $data ) ) {
 				return;
