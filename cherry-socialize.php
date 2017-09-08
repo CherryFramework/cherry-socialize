@@ -3,9 +3,9 @@
  * Plugin Name: Cherry Socialize
  * Plugin URI:  https://wordpress.org/plugins/cherry-socialize/
  * Description: A social plugin for WordPress.
- * Version:     1.0.2-beta
- * Author:      Cherry Team
- * Author URI:  http://www.cherryframework.com/plugins/
+ * Version:     1.0.3
+ * Author:      Jetimpex
+ * Author URI:  https://jetimpex.com/wordpress/
  * Text Domain: cherry-socialize
  * License:     GPL-3.0+
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
@@ -72,7 +72,7 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 		 * @access public
 		 * @var    string
 		 */
-		public $version = '1.0.2-beta';
+		public $version = '1.0.3';
 
 		/**
 		 * Sets up needed actions/filters for the plugin to initialize.
