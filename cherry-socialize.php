@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Socialize
  * Plugin URI:  https://wordpress.org/plugins/cherry-socialize/
  * Description: A social plugin for WordPress.
- * Version:     1.0.1
+ * Version:     1.0.2-beta
  * Author:      Cherry Team
  * Author URI:  http://www.cherryframework.com/plugins/
  * Text Domain: cherry-socialize
@@ -72,7 +72,7 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 		 * @access public
 		 * @var    string
 		 */
-		public $version = '1.0.1';
+		public $version = '1.0.2-beta';
 
 		/**
 		 * Sets up needed actions/filters for the plugin to initialize.
@@ -182,6 +182,9 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 					'cherry-widget-factory' => array(
 						'autoload' => true,
 					),
+					'cherry-interface-builder' => array(
+						'autoload' => false,
+					),
 				),
 			) );
 
@@ -201,8 +204,9 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 
 			$current_screen = get_current_screen();
 
-			if ( $current_screen && 'widgets' == $current_screen->id ) {
+			if ( ( $current_screen && 'widgets' == $current_screen->id ) || is_customize_preview() ) {
 				$this->get_core()->init_module( 'cherry-js-core' );
+				$this->get_core()->init_module( 'cherry-interface-builder' );
 			}
 		}
 
