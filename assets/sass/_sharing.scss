@@ -1,0 +1,123 @@
+.cs-share__list {
+	@include reset-list;
+}
+
+.cs-share__item {
+	display: inline-block;
+	margin-right: 10px;
+
+	vertical-align: top;
+}
+
+.cs-share__link {
+	display: block;
+
+	text-decoration: none;
+
+	cursor: pointer;
+	&:focus {
+		outline: none;
+	}
+	&[href*="digg.com"]::before {
+		content: "\f1a6";
+	}
+	&[href*="dribbble.com"]::before {
+		content: "\f17d";
+	}
+	&[href*="dropbox.com"]::before {
+		content: "\f16b";
+	}
+	&[href*="facebook.com"]::before {
+		content: "\f09a";
+	}
+	&[href*="foursquare.com"]::before {
+		content: "\f180";
+	}
+	&[href*="flickr.com"]::before {
+		content: "\f16e";
+	}
+	&[href*="plus.google.com"]::before {
+		content: "\f0d5";
+	}
+	&[href*="github.com"]::before {
+		content: "\f09b";
+	}
+	&[href*="instagram.com"]::before {
+		content: "\f16d";
+	}
+	&[href*="linkedin.com"]::before {
+		content: "\f0e1";
+	}
+	&[href*="pinterest.com"]::before {
+		content: "\f0d2";
+	}
+	&[href*="reddit.com"]::before {
+		content: "\f1a1";
+	}
+	&[href*="stumbleupon.com"]::before {
+		content: "\f1a4";
+	}
+	&[href*="tumblr.com"]::before {
+		content: "\f173";
+	}
+	&[href*="twitter.com"]::before {
+		content: "\f099";
+	}
+	&[href*="amazon.com"]::before {
+		content: "\f270";
+	}
+	&[href*="tripadvisor"]::before {
+		content: "\f262";
+	}
+	&[href*="soundcloud.com"]::before {
+		content: "\f1be";
+	}
+	&[href*="slideshare.net"]::before {
+		content: "\f1e7";
+	}
+	&[href*="jsfiddle.net"]::before {
+		content: "\f1cc";
+	}
+	&[href*="codepen.io"]::before {
+		content: "\f1cb";
+	}
+	&[href*="vk.com"]::before {
+		content: "\f189";
+	}
+	&[href*="ok.ru"]::before {
+		content: "\f263";
+	}
+	&::before {
+		width: 31px;
+		height: 31px;
+		margin: 0 auto;
+
+		line-height: 29px;
+		text-align: center;
+
+		border: 2px solid currentColor;
+		border-radius: 50%;
+
+		@include font-awesome-icon;
+	}
+}
+
+.cs-share__link-text {
+	display: inline-block;
+
+	font-size: 0.85em;
+	vertical-align: middle;
+}
+
+.cs-share--icon .cs-share__link-text {
+	@include screen-reader-text;
+}
+
+.cs-share--icon .cs-share__link-text,
+.cs-share--both .cs-share__link-text {
+	margin-left: 3px;
+}
+
+.cs-share--text .cs-share__link::before {
+	display: none;
+}

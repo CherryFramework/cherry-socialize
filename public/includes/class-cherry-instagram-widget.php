@@ -155,7 +155,6 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 				),
 			);
 
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), 9 );
 			add_action( 'setted_transient', array( $this, 'cache_keys' ), 10, 3 );
 			parent::__construct();
 		}
@@ -579,17 +578,6 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 				$this->config['photo_counter'],
 				$this->config['caption_length']
 			);
-		}
-
-		/**
-		 * Enqueue public assets.
-		 *
-		 * @since 1.0.0
-		 */
-		public function enqueue_assets() {
-			if ( is_active_widget( false, false, $this->id_base, true ) ) {
-				wp_enqueue_style( 'cherry-socialize-public' );
-			}
 		}
 
 		/**

@@ -1,0 +1,25 @@
+{
+	"name": "Socialize",
+	"version": "1.1.0",
+	"description": "Cherry Socialize workflow",
+	"scripts": {
+		"build": "gulp style"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/CherryFramework/cherry-socialize.git"
+	},
+	"author": "Cherry Team",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/CherryFramework/cherry-socialize/issues"
+	},
+	"homepage": "",
+	"devDependencies": {
+		"autoprefixer": "^7.1.2",
+		"gulp": "^3.9.1",
+		"gulp-csso": "^3.0.0",
+		"gulp-postcss": "^7.0.0",
+		"gulp-sass": "^3.1.0"
+	}
+}
