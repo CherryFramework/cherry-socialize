@@ -2,8 +2,8 @@
 Contributors: TemplateMonster 2002
 Tags: socialize, social networks, instagram, cherry framework
 Requires at least: 4.5
-Tested up to: 4.8.1
-Stable tag: 1.0.3
+Tested up to: 4.9
+Stable tag: 1.0.4
 License: GPL-3.0+
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -21,17 +21,23 @@ You can choose the content type to be shown, show tagged photos, enter different
 2. Activate the plugin through the "Plugins" menu in WordPress
 
 == Changelog ==
-= 1.0.0 =
 
-* Initial release
+= 1.0.4 =
+
+* Fixed insta change API bug
+
+= 1.0.3 =
+
+* Fixed bug
 
 = 1.0.1 =
 
 * ADD: filter to control cache update
 
-= 1.0.3 =
+= 1.0.0 =
 
-* Fixed bug
+* Initial release
+
 
 == Documentation ==
 
