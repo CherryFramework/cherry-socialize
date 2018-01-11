@@ -173,6 +173,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 				return;
 			}
 
+
 			if ( 'hashtag' == $instance['endpoint'] && empty( $instance['hashtag'] ) ) {
 				return print $args['before_widget'] . esc_html__( 'Please, enter #hashtag.', 'cherry-socialize' ) . $args['after_widget'];
 			}
@@ -238,6 +239,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 			}
 
 			$transient_key = $this->get_transient_key();
+
 			$cache_timeout = apply_filters(
 				'cherry_socialize_instagram_widget_cache_timeout',
 				HOUR_IN_SECONDS, $args, $instance
@@ -245,6 +247,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 
 			// Grab that photos.
 			$tlc = tlc_transient( $transient_key );
+
 
 			$tlc->expires_in( $cache_timeout )
 				->extend_on_fail( $cache_timeout );
@@ -306,41 +309,60 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 		 */
 		public function get_photos( $config ) {
 			$response = $this->remote_get( $config );
-
 			if ( is_wp_error( $response ) ) {
-				throw new Exception( 'error' );
+				return array();
 			}
 
-			$key = 'hashtag' == $config['endpoint'] ? 'tag' : 'user';
+			$key = 'hashtag' == $config['endpoint'] ? 'hashtag' : 'user';
+
+			if ( 'hashtag' === $key ) {
+				$response = isset( $response['graphql'] ) ? $response['graphql'] : $response;
+			}
 
 			if ( empty( $response[ $key ] ) ) {
-				throw new Exception( 'error' );
+				return array();
 			}
 
-			if ( empty( $response[ $key ]['media']['nodes'] ) ) {
-				throw new Exception( 'error' );
+			$response_items = ( 'hashtag' === $key ) ? $response[ $key ]['edge_hashtag_to_media']['edges'] : $response[ $key ]['media']['nodes'];
+
+			if ( empty( $response_items ) ) {
+				return array();
 			}
 
 			$data  = array();
 			$nodes = array_slice(
-				$response[ $key ]['media']['nodes'],
+				$response_items,
 				0,
 				$config['photo_counter'],
 				true
 			);
 
-			foreach ( $nodes as $photo ) {
-				$_photo            = array();
-				$_photo['link']    = $photo['code'];
-				$_photo['image']   = $photo['thumbnail_src'];
-				$_photo['date']    = sanitize_text_field( $photo['date'] );
-				$_photo['caption'] = wp_html_excerpt(
-					$photo['caption'],
-					$this->config['caption_length'],
-					apply_filters( 'cherry_socialize_instagram_widget_caption_more', '&hellip;' )
-				);
+			if ( 'user' === $key ) {
+				foreach ( $nodes as $photo ) {
+					$_photo            = array();
+					$_photo['link']    = $photo['code'];
+					$_photo['image']   = $photo['thumbnail_src'];
+					$_photo['date']    = sanitize_text_field( $photo['date'] );
+					$_photo['caption'] = wp_html_excerpt(
+						$photo['caption'],
+						$this->config['caption_length'],
+						apply_filters( 'cherry_socialize_instagram_widget_caption_more', '&hellip;' )
+					);
 
-				array_push( $data, $_photo );
+					array_push( $data, $_photo );
+				}
+			} else {
+				foreach ( $nodes as $post ) {
+					$_post               = array();
+					$_post['link']       = $post['node']['shortcode'];
+					$_post['image']      = $post['node']['thumbnail_src'];
+					$_post['caption']    = wp_html_excerpt( $post['node']['edge_media_to_caption']['edges'][0]['node']['text'], $this->config['caption_length'], '&hellip;' );
+					$_post['comments']   = $post['node']['edge_media_to_comment']['count'];
+					$_post['likes']      = $post['node']['edge_liked_by']['count'];
+					$_post['dimensions'] = $post['node']['dimensions'];
+
+					array_push( $data, $_post );
+				}
 			}
 
 			return array(
