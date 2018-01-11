@@ -1,61 +1,75 @@
 .cs-instagram {
 	box-sizing: border-box;
-	&__items {
-		position: relative;
-		display: flex;
-		margin-right: -5px;
-		margin-left: -5px;
+}
 
-		flex-flow: row wrap;
-	}
-	&__item {
-		position: relative;
-		z-index: 1;
-		max-width: 33.33333%;
-		min-height: 1px;
-		padding: 5px;
+.cs-instagram__items {
+	position: relative;
 
-		flex: 0 0 33.33333%;
-	}
-	&__link {
-		position: relative;
-		display: block;
-		overflow: hidden;
-		&:hover {
-			.rs-instagram__cover {
-				opacity: .75;
-			}
+	display: flex;
+	flex-flow: row wrap;
+	margin-right: -5px;
+	margin-left: -5px;
+}
+
+.cs-instagram__item {
+	position: relative;
+	z-index: 1;
+
+	flex: 0 0 33.33333%;
+	max-width: 33.33333%;
+	min-height: 1px;
+	padding: 5px;
+}
+
+.cs-instagram__link {
+	position: relative;
+
+	display: block;
+	overflow: hidden;
+	&:hover {
+		.rs-instagram__cover {
+			opacity: 0.75;
 		}
 	}
-	&__img {
-		display: inline-block;
-		width: 100%;
-		vertical-align: top;
-	}
-	&__cover {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		transition: all .25s ease-out;
-		text-align: center;
-		opacity: 0;
-		background-color: currentColor;
-	}
-	&__follow-us {
-		position: absolute;
-		z-index: 9;
-		top: 50%;
-		left: 50%;
-		display: block;
-		padding: 10px;
-		transform: translate(-50%, -50%);
-		text-align: center;
-		color: #fff;
-		background-color: rgba(0,0,0,.75);
-		&:hover {
-			background-color: #fff;
-		}
+}
+
+.cs-instagram__img {
+	display: inline-block;
+	width: 100%;
+
+	vertical-align: top;
+}
+
+.cs-instagram__cover {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
+	text-align: center;
+
+	background-color: currentColor;
+	opacity: 0;
+
+	transition: all 0.25s ease-out;
+}
+
+.cs-instagram__follow-us {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 9;
+
+	display: block;
+	padding: 10px;
+
+	text-align: center;
+	color: #ffffff;
+
+	background-color: rgba(0,0,0,0.75);
+	transform: translate(-50%, -50%);
+	&:hover {
+		background-color: #ffffff;
 	}
 }

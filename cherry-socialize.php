@@ -104,6 +104,7 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 
 			// Register a public javascripts and stylesheets.
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_public_assets' ), 1 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_assets' ),  9 );
 
 			// Register activation, deactivation and uninstall hooks.
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
@@ -217,6 +218,7 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 		 */
 		public function includes() {
 			require_once $this->plugin_dir( 'public/includes/class-cherry-instagram-widget.php' );
+			require_once $this->plugin_dir( 'public/includes/class-cherry-sharing.php' );
 		}
 
 		/**
@@ -269,9 +271,22 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 		 * @since 1.0.0
 		 */
 		public function register_public_assets() {
-			wp_register_style( 'cherry-socialize-public', $this->plugin_url( 'assets/css/public.css' ), array(), $this->version );
+			wp_register_style( 'font-awesome', $this->plugin_url( 'assets/css/font-awesome.min.css' ), array(), '4.7.0' );
+			wp_register_style( 'cherry-socialize-public', $this->plugin_url( 'assets/css/public.css' ), array( 'font-awesome' ), $this->version );
 		}
 
+		/**
+		 * Enqueue public assets.
+		 *
+		 * @since 1.1.0
+		 */
+		public function enqueue_public_assets() {
+			$is_conditional_check = apply_filters( 'cherry_socialize_dequeue_style', false );
+
+			if ( false === $is_conditional_check ) {
+				wp_enqueue_style( 'cherry-socialize-public' );
+			}
+		}
 		/**
 		 * Retrieve the name of the highest priority template file that exists, optionally loading that file.
 		 *
