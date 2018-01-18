@@ -22,6 +22,10 @@ You can choose the content type to be shown, show tagged photos, enter different
 
 == Changelog ==
 
+= 1.0.5 =
+
+* Updated cherry framework
+
 = 1.0.4 =
 
 * Fixed insta change API bug
