@@ -1,0 +1,56 @@
+.cs-user-social {
+
+	&__list {
+		@include reset-list;
+	}
+
+	&__item {
+		display: inline-block;
+		padding: 0;
+		margin: 0 10px 0 0;
+
+		vertical-align: top;
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+
+	&__link {
+		display: block;
+		text-decoration: none;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	&__link-icon {
+		width: 30px;
+		height: 30px;
+		margin: 0 auto;
+
+		line-height: 30px;
+		text-align: center;
+	}
+
+	&__link-text {
+		display: inline-block;
+
+		font-size: 0.85em;
+		vertical-align: middle;
+	}
+
+	&--icon .cs-user-social__link-text {
+		@include screen-reader-text;
+	}
+
+	&--icon .cs-user-social__link-text,
+	&--both .cs-user-social__link-text {
+		margin-left: 3px;
+	}
+
+	&--text .cs-user-social__link-icon {
+		display: none;
+	}
+}

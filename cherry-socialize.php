@@ -219,6 +219,7 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 		public function includes() {
 			require_once $this->plugin_dir( 'public/includes/class-cherry-instagram-widget.php' );
 			require_once $this->plugin_dir( 'public/includes/class-cherry-sharing.php' );
+			require_once $this->plugin_dir( 'public/includes/class-cherry-user-social-links.php' );
 		}
 
 		/**
