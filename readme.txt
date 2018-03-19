@@ -22,6 +22,11 @@ You can choose the content type to be shown, show tagged photos, enter different
 
 == Changelog ==
 
+= 1.1.0 =
+
+* Add: post sharing
+* Add: user social links
+
 = 1.0.5 =
 
 * Updated cherry framework

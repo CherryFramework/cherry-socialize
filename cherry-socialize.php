@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Socialize
  * Plugin URI:  https://wordpress.org/plugins/cherry-socialize/
  * Description: A social plugin for WordPress.
- * Version:     1.0.5
+ * Version:     1.1.0
  * Author:      Jetimpex
  * Author URI:  https://jetimpex.com/wordpress/
  * Text Domain: cherry-socialize
@@ -12,7 +12,7 @@
  * Domain Path: /languages
  *
  * @link    http://www.cherryframework.com/plugins/
- * @since   1.0.0
+ * @since   1.1.0
  * @package Cherry_Socialize
  */
 
@@ -72,7 +72,7 @@ if ( ! class_exists( 'Cherry_Socialize' ) ) {
 		 * @access public
 		 * @var    string
 		 */
-		public $version = '1.0.5';
+		public $version = '1.1.0';
 
 		/**
 		 * Sets up needed actions/filters for the plugin to initialize.
