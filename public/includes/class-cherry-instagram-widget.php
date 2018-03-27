@@ -173,7 +173,6 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 				return;
 			}
 
-
 			if ( 'hashtag' == $instance['endpoint'] && empty( $instance['hashtag'] ) ) {
 				return print $args['before_widget'] . esc_html__( 'Please, enter #hashtag.', 'cherry-socialize' ) . $args['after_widget'];
 			}
@@ -238,35 +237,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 				$follow_us_enabled = false;
 			}
 
-			$transient_key = $this->get_transient_key();
-
-			$cache_timeout = apply_filters(
-				'cherry_socialize_instagram_widget_cache_timeout',
-				HOUR_IN_SECONDS, $args, $instance
-			);
-
-			// Grab that photos.
-			$tlc = tlc_transient( $transient_key );
-
-
-			$tlc->expires_in( $cache_timeout )
-				->extend_on_fail( $cache_timeout );
-
-			/**
-			 * Filters cache update.
-			 *
-			 * @since 1.0.1
-			 */
-			if ( false !== apply_filters( 'cherry_socialize_instagram_widget_cached_background_only', true ) ) {
-				$tlc->background_only();
-			}
-
-			$tlc->updates_with( array( $this, 'get_photos' ), array( $this->config ) );
-			$data = $tlc->get();
-
-			if ( empty( $data ) ) {
-				return;
-			}
+			$data = $this->get_photos( $this->config );
 
 			$this->widget_start( $args, $instance );
 
@@ -308,7 +279,17 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 		 * @return array
 		 */
 		public function get_photos( $config ) {
+
+			$transient_key = md5( $this->get_transient_key() );
+
+			$data = get_transient( $transient_key );
+
+			if ( ! empty( $data ) ) {
+				return $data;
+			}
+
 			$response = $this->remote_get( $config );
+
 			if ( is_wp_error( $response ) ) {
 				return array();
 			}
@@ -319,11 +300,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 				$response = isset( $response['graphql'] ) ? $response['graphql'] : $response;
 			}
 
-			if ( empty( $response[ $key ] ) ) {
-				return array();
-			}
-
-			$response_items = ( 'hashtag' === $key ) ? $response[ $key ]['edge_hashtag_to_media']['edges'] : $response[ $key ]['media']['nodes'];
+			$response_items = ( 'hashtag' === $key ) ? $response[ $key ]['edge_hashtag_to_media']['edges'] : $response['graphql'][ $key ]['edge_owner_to_timeline_media']['edges'];
 
 			if ( empty( $response_items ) ) {
 				return array();
@@ -337,38 +314,30 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 				true
 			);
 
-			if ( 'user' === $key ) {
-				foreach ( $nodes as $photo ) {
-					$_photo            = array();
-					$_photo['link']    = $photo['code'];
-					$_photo['image']   = $photo['thumbnail_src'];
-					$_photo['date']    = sanitize_text_field( $photo['date'] );
-					$_photo['caption'] = wp_html_excerpt(
-						$photo['caption'],
-						$this->config['caption_length'],
-						apply_filters( 'cherry_socialize_instagram_widget_caption_more', '&hellip;' )
-					);
+			foreach ( $nodes as $post ) {
 
-					array_push( $data, $_photo );
-				}
-			} else {
-				foreach ( $nodes as $post ) {
-					$_post               = array();
-					$_post['link']       = $post['node']['shortcode'];
-					$_post['image']      = $post['node']['thumbnail_src'];
-					$_post['caption']    = wp_html_excerpt( $post['node']['edge_media_to_caption']['edges'][0]['node']['text'], $this->config['caption_length'], '&hellip;' );
-					$_post['comments']   = $post['node']['edge_media_to_comment']['count'];
-					$_post['likes']      = $post['node']['edge_liked_by']['count'];
-					$_post['dimensions'] = $post['node']['dimensions'];
+				$_post               = array();
+				$_post['link']       = $post['node']['shortcode'];
+				$_post['image']      = $post['node']['thumbnail_src'];
+				$_post['caption']    = isset( $post['node']['edge_media_to_caption']['edges'][0]['node']['text'] ) ? wp_html_excerpt( $post['node']['edge_media_to_caption']['edges'][0]['node']['text'], $this->config['caption_length'], '&hellip;' ) : '';
+				$_post['comments']   = $post['node']['edge_media_to_comment']['count'];
+				$_post['likes']      = $post['node']['edge_liked_by']['count'];
+				$_post['dimensions'] = $post['node']['dimensions'];
+				$_post['thumbnail_resources'] = $this->_generate_thumbnail_resources( $post );
 
-					array_push( $data, $_post );
-				}
+				array_push( $data, $_post );
 			}
 
-			return array(
+			$cache_timeout = apply_filters( 'cherry_socialize_instagram_widget_cache_timeout', HOUR_IN_SECONDS );
+
+			$data = array(
 				'widget_id' => $this->id,
 				'photos'    => $data,
 			);
+
+			set_transient( $transient_key, $data, $cache_timeout );
+
+			return $data;
 		}
 
 		/**
@@ -449,34 +418,28 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 		 * @param  array $item Item photo data.
 		 */
 		public function the_image( $item ) {
-			$size = $this->_get_relation_photo_size( $this->config['photo_size'] );
+			$size = $this->config['photo_size'];
 
-			// Get photo filename (name.jpg).
-			$parse_url  = parse_url( $item['image'] );
-			$parts      = explode( '/', $parse_url['path'] );
-			$photo_name = $parts[ sizeof( $parts ) - 1 ];
+			$thumbnail_resources = $item['thumbnail_resources'];
 
-			if ( ! empty( $size ) ) {
-				$width     = $size[0];
-				$height    = $size[1];
-				$photo_url = sprintf(
-					'%st/s%dx%d/%s',
-					$this->cdn_url, absint( $width ), absint( $height ), $photo_name
-				);
-
-				$photo_format = "<img src='%s' class='cs-instagram__img' width='{$width}' height='{$height}' alt=''>";
-
+			if ( array_key_exists( $size, $thumbnail_resources ) ) {
+				$width = $thumbnail_resources[ $size ]['config_width'];
+				$height = $thumbnail_resources[ $size ]['config_height'];
+				$post_photo_url = $thumbnail_resources[ $size ]['src'];
 			} else {
-				$photo_url    = sprintf( '%st/%s', $this->cdn_url, $photo_name );
-				$photo_format = '<img src="%s" class="cs-instagram__img" alt="">';
+				$width = $item['dimensions']['width'];
+				$height = $item['dimensions']['height'];
+				$post_photo_url = $item['image'];
 			}
+
+			$photo_format = "<img src='%s' class='cs-instagram__img' width='{$width}' height='{$height}' alt=''>";
 
 			$photo_format = apply_filters(
 				'cherry_socialize_instagram_widget_photo_format',
 				$photo_format, $size, $this->args, $this->instance
 			);
 
-			$photo = sprintf( $photo_format, esc_url( $photo_url ) );
+			$photo = sprintf( $photo_format, esc_url( $post_photo_url ) );
 
 			if ( ! $this->config['photo_link'] ) {
 				print $photo;
@@ -540,6 +503,55 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 		}
 
 		/**
+		 * [_get_thumbnail_src description]
+		 * @param  [type] $size [description]
+		 * @return [type]       [description]
+		 */
+		public function _generate_thumbnail_resources( $post_data ) {
+			$post_data = $post_data['node'];
+
+			$thumbnail_resources = array(
+				'thumbnail' => false,
+				'low'       => false,
+				'standard'  => false,
+				'high'      => false,
+			);
+
+			if ( is_array( $post_data['thumbnail_resources'] ) && ! empty( $post_data['thumbnail_resources'] ) ) {
+				foreach ( $post_data['thumbnail_resources'] as $key => $resources_data ) {
+
+					if ( 150 === $resources_data['config_width'] ) {
+						$thumbnail_resources['thumbnail'] = $resources_data;
+
+						continue;
+					}
+
+					if ( 320 === $resources_data['config_width'] ) {
+						$thumbnail_resources['low'] = $resources_data;
+
+						continue;
+					}
+
+					if ( 640 === $resources_data['config_width'] ) {
+						$thumbnail_resources['standard'] = $resources_data;
+
+						continue;
+					}
+				}
+			}
+
+			if ( ! empty( $post_data['display_url'] ) ) {
+				$thumbnail_resources['high'] = array(
+					'src'           => $post_data['display_url'],
+					'config_width'  => $post_data['dimensions']['width'],
+					'config_height' => $post_data['dimensions']['height'],
+				) ;
+			}
+
+			return $thumbnail_resources;
+		}
+
+		/**
 		 * Retrieve a grab URL.
 		 *
 		 * @since  1.0.0
@@ -594,7 +606,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 		 * @return string
 		 */
 		public function get_transient_key() {
-			return sprintf( 'cherry_socialize_instagram_%s_%s_photo-%s_caption-%s',
+			return sprintf( 'cherry_socialize_instagram_widget_%s_%s_photo-%s_caption-%s',
 				$this->config['endpoint'],
 				$this->config['target'],
 				$this->config['photo_counter'],
