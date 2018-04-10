@@ -148,11 +148,13 @@ if ( ! class_exists( 'Cherry_Socialize_User_Social_Links' ) ) {
 
 			foreach ( (array) $networks as $id => $network ) :
 
-				if ( empty( get_the_author_meta( $id ) ) ) {
+				$author_social_url = get_the_author_meta( $id );
+
+				if ( empty( $author_social_url ) ) {
 					continue;
 				}
 
-				$social_url = esc_url( get_the_author_meta( $id ) );
+				$social_url = esc_url( $author_social_url );
 
 				ob_start();
 				include $template_item;
