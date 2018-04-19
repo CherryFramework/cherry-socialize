@@ -25,6 +25,13 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 		private $api_url = 'https://www.instagram.com/';
 
 		/**
+		 * Alternative Instagram API-server URL.
+		 *
+		 * @var string
+		 */
+		private $alt_api_url = 'https://apinsta.herokuapp.com/';
+
+		/**
 		 * Instagram CDN-server URL.
 		 *
 		 * @since 1.0.0
@@ -347,10 +354,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 		 * @return array|WP_Error
 		 */
 		public function remote_get( $config ) {
-			$url = add_query_arg(
-				array( '__a' => 1 ),
-				$this->get_grab_url( $config )
-			);
+			$url = $this->get_grab_url( $config );
 
 			$response      = wp_remote_get( $url );
 			$response_code = wp_remote_retrieve_response_code( $response );
@@ -561,6 +565,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 
 			if ( 'hashtag' == $config['endpoint'] ) {
 				$url = sprintf( $this->get_tags_url(), $config['target'] );
+				$url = add_query_arg( array( '__a' => 1 ), $url );
 
 			} else {
 				$url = sprintf( $this->get_self_url(), $config['target'] );
@@ -586,7 +591,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 		 * @return string
 		 */
 		public function get_self_url() {
-			return apply_filters( 'cherry_socialize_instagram_widget_get_self_url', $this->api_url . '%s/' );
+			return apply_filters( 'cherry_socialize_instagram_widget_get_self_url', $this->alt_api_url . 'u/%s/' );
 		}
 
 		/**
