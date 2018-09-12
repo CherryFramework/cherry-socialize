@@ -264,7 +264,7 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 
 			if ( $follow_us_enabled ) {
 
-				$follow_url      = $this->get_grab_url( $this->config );
+				$follow_url      = $this->get_grab_url( $this->config, false );
 				$follow_symbol   = 'hashtag' === $this->config['endpoint'] ? ' #' : ' @';
 				$follow_text     = $follow_us_label . $follow_symbol . $this->config['target'];
 				$template_follow = cherry_socialize()->locate_template( 'instagram/follow-us.php' );
@@ -561,11 +561,14 @@ if ( ! class_exists( 'Cherry_Socialize_Instagram_Widget' ) ) {
 		 * @since  1.0.0
 		 * @return string
 		 */
-		public function get_grab_url( $config ) {
+		public function get_grab_url( $config, $query = true ) {
 
 			if ( 'hashtag' == $config['endpoint'] ) {
 				$url = sprintf( $this->get_tags_url(), $config['target'] );
-				$url = add_query_arg( array( '__a' => 1 ), $url );
+
+				if ( $query ) {
+					$url = add_query_arg( array( '__a' => 1 ), $url );
+				}
 
 			} else {
 				$url = sprintf( $this->get_self_url(), $config['target'] );
