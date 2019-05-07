@@ -2,8 +2,8 @@
 Contributors: TemplateMonster 2002
 Tags: socialize, social networks, instagram, cherry framework
 Requires at least: 4.5
-Tested up to: 4.9.5
-Stable tag: 1.1.3
+Tested up to: 5.1.0
+Stable tag: 1.1.4
 License: GPL-3.0+
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
